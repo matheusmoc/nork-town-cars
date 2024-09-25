@@ -1,0 +1,65 @@
+# Diretórios de cache e ambientes virtuais
+__pycache__/
+.venv/
+.venv/*
+env/
+env.bak/
+ENV/
+env.bak/
+.venv/
+
+# Arquivos de configuração de ambiente
+.env
+*.env
+
+# Arquivos de banco de dados
+*.db
+*.sqlite3
+
+# Arquivos de compilação do Python
+*.pyc
+*.pyo
+*.pyd
+
+# Diretórios de distribuição
+build/
+dist/
+
+# Arquivos de lock de dependências
+Pipfile.lock
+poetry.lock
+
+# IDEs e editores
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.code-workspace
+
+# Outros arquivos comuns
+*.log
+*.pot
+*.py[cod]
+*.egg-info/
+*.egg
+.DS_Store
+Thumbs.db
+*.bak
+*.tmp
+*.temp
+*.orig
+
+# Arquivos de testes
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.mo
+*.pot
+
+# Arquivos de documentação
+*.rst
+*.md
+
+# Diretórios de cache
+.cache/
