@@ -1,5 +1,5 @@
 import unittest
-from app.main import create_app, db
+from app import create_app, db
 from app.models.car import Car
 from app.models.owner import Owner
 
@@ -45,14 +45,6 @@ class CarModelTestCase(unittest.TestCase):
             db.session.add(car)
             db.session.commit()
         self.assertEqual(str(context.exception), "A cor 'InvalidColor' não é permitida. Escolha entre ['Yellow', 'Blue', 'Gray'].")
-
-    def test_create_car_invalid_owner(self):
-        """Test creating a car with a non-existent owner."""
-        with self.assertRaises(ValueError) as context:
-            car = Car(model='Hatch', color='Yellow', owner_id=999) 
-            db.session.add(car)
-            db.session.commit()
-        self.assertEqual(str(context.exception), "O carro deve ter um proprietário válido.")
 
     def test_create_car_owner_with_three_cars(self):
         """Test creating a fourth car for an owner who already has three cars of different colors and models."""

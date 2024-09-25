@@ -38,7 +38,14 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('api.car.get_template') }}">Carros</a>
-                </li> 
+                </li>
+                {% if current_user.is_authenticated %}
+                <li class="nav-item">
+                    <form action="{{ url_for('auth.logout') }}" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">Deslogar</button>
+                    </form>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </nav>

@@ -1,5 +1,5 @@
 import unittest
-from app.main import create_app, db
+from app import create_app, db
 from app.models.owner import Owner
 from app.models.car import Car  
 
