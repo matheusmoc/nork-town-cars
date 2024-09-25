@@ -84,8 +84,12 @@ Utilize o Docker Compose para construir e iniciar os contêineres do projeto.
    ```bash
    docker-compose up -d
    ```
-
-# ⚙️ Tecnologias Usadas
+### 4. Rodando o projeto
+   Para rodar um projeto Flask basta usar o comando:
+   
+   ```bash
+   flask run
+   ```
 
 Este projeto utiliza as seguintes tecnologias:
 
@@ -94,7 +98,7 @@ Este projeto utiliza as seguintes tecnologias:
 - [Flask-Login](https://flask-login.readthedocs.io/) - Uma extensão para gerenciar sessões de usuários em aplicações Flask.
 - [Flask-Testing](https://flask-testing.readthedocs.io/) - Uma extensão que fornece ferramentas para facilitar os testes de aplicações Flask.
 - [SQLAlchemy](https://www.sqlalchemy.org/) - Uma biblioteca SQL e ORM para Python que permite interagir com bancos de dados de forma simples e eficiente.
-- [Flasgger](https://flasgger.readthedocs.io/) - Uma extensão que simplifica a criação de APIs RESTful e a documentação com Swagger.
+- [Flasgger](https://github.com/flasgger/flasgger) - Uma extensão que simplifica a criação de APIs RESTful e a documentação com Swagger.
 - [Vue.js 2.6](https://vuejs.org/v2/guide/) - Um framework progressivo para construir interfaces de usuário, que permite a criação de aplicações web reativas e dinâmicas.
 
 # 🖼️ Overview de Imagens
@@ -130,9 +134,19 @@ A documentação da API está disponível através do Flasgger e pode ser acessa
 
 ### 🌐 Acessando a Documentação
 
-Após iniciar o servidor, a documentação da API pode ser acessada na seguinte URL: [http://127.0.0.1:5000/apidocs/](http://127.0.0.1:5000/apidocs/)
+Após iniciar o servidor, a documentação da API pode ser acessada na seguinte URL: http://127.0.0.1:5000/apidocs/
 
-![image](https://github.com/user-attachments/assets/873a2926-00ac-42c5-8968-8236c841b219)
+![image](https://github.com/user-attachments/assets/077603c2-1e77-4634-b89e-d32f135cc27f)
+
+
+Para visualizar as rotas completas do projeto, basta rodar:
+
+```bash
+flask route
+```
+
+![image](https://github.com/user-attachments/assets/e31d2834-ac9f-4b63-88e0-d551dbecb34e)
+
 
 ### ⚠️ Notas
 
