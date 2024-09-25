@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="owners" class="container mt-4">
+    <!-- Alertas para mensagens de erro -->
+    <div v-if="errorMessage" class="alert alert-warning alert-dismissible fade show" role="alert">
+        (( errorMessage ))
+        <button type="button" class="close" @click="errorMessage = ''" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <!-- Alertas para mensagens de sucesso -->
+    <div v-if="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        (( successMessage ))
+        <button type="button" class="close" @click="successMessage = ''" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    
+    <h1>Lista de Proprietários</h1>
+
+    <!-- Botão para abrir o modal de cadastro -->
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createOwnerModal">
+        Cadastrar Proprietário
+    </button>
+
+    <!-- Modal para cadastrar proprietário -->
+    <div class="modal fade" id="createOwnerModal" tabindex="-1" aria-labelledby="createOwnerModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createOwnerModalLabel">Cadastrar Novo Proprietário</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form @submit.prevent="createOwner">
+                        <!-- Nome do proprietário -->
+                        <div class="mb-3">
+                            <label for="ownerName" class="form-label">Nome do Proprietário</label>
+                            <input type="text" v-model="newOwnerName" id="ownerName" class="form-control" required>
+                        </div>
+
+                        <!-- Contato do proprietário -->
+                        <div class="mb-3">
+                            <label for="ownerContact" class="form-label">Contato do Proprietário</label>
+                            <input type="text" v-model="newOwnerContact" id="ownerContact" class="form-control">
+                        </div>
+
+                        <!-- Botão para submeter o formulário -->
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de proprietários -->
+    <div v-if="owners.length > 0">
+        <div class="row">
+            <div class="col-12" v-for="owner in owners" :key="owner.id">
+                <div class="card mb-4 w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Nome: (( owner.name ))</h5>
+                        <p class="card-text"><strong>Contato:</strong> (( owner.contact ))</p>
+                        <p class="card-text">
+                            <strong>Carros:</strong>
+                            <ul v-if="(owner.cars || []).length > 0">
+                                <li v-for="car in owner.cars" :key="car.id">
+                                    Modelo: (( car.model )), Cor: (( car.color ))
+                                </li>
+                            </ul>
+                            <span class="badge badge-success" v-else>Oportunidade de venda</span>
+                        </p>
+                        <button class="btn btn-danger" @click="deleteOwner(owner.id)">Deletar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-else>
+        <p>Carregando...</p>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#owners',
+        data: {
+            owners: [],  
+            newOwnerName: '',  
+            newOwnerContact: '',  
+            errorMessage: '', // Add error message data
+            successMessage: '' // Add success message data
+        },
+        mounted() {
+            this.getOwners();
+        },
+        delimiters: ['(( ', ' ))'],
+        methods: {
+            async getOwners() {
+                try {
+                    const response = await fetch('/owners/list');
+                    if (!response.ok) {
+                        throw new Error('Erro ao buscar proprietários');
+                    }
+                    this.owners = await response.json();
+                } catch (error) {
+                    this.errorMessage = error.message; 
+                }
+            },
+            async createOwner() {
+                const newOwner = {
+                    name: this.newOwnerName,
+                    contact: this.newOwnerContact,
+                };
+            
+                try {
+                    const response = await fetch('/owners/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(newOwner)
+                    });
+            
+                    if (!response.ok) {
+                        throw new Error('Erro ao realizar a requisição de criação');
+                    }
+                    
+                    this.newOwnerName = '';
+                    this.newOwnerContact = '';
+                    
+                    const data = await response.json();
+                    this.owners.push(data);  
+                    this.getOwners();
+                    $('#createOwnerModal').modal('hide');
+                    this.successMessage = 'Proprietário cadastrado com sucesso!'; // Set success message
+                } catch (error) {
+                    this.errorMessage = error.message;
+                }
+            },
+            async deleteOwner(ownerId) {
+                try {
+                    const response = await fetch(`/owners/delete/${ownerId}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Erro ao deletar proprietário');
+                    }
+
+                    this.owners = this.owners.filter(owner => owner.id !== ownerId);
+                    this.successMessage = 'Proprietário deletado com sucesso!'; 
+                } catch (error) {
+                    this.errorMessage = error.message;
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

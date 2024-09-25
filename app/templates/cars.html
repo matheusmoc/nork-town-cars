@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="cars" class="container mt-4">
+    <!-- Alertas para mensagens de erro e sucesso -->
+    <div v-if="errorMessage" class="alert alert-warning alert-dismissible fade show" role="alert">
+        (( errorMessage ))
+        <button type="button" class="close" @click="errorMessage = ''" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div v-if="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        (( successMessage ))
+        <button type="button" class="close" @click="successMessage = ''" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <h1>Lista de Carros</h1>
+
+    <!-- Botão para abrir o modal de cadastro -->
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#createCarModal">
+        Cadastrar Carro
+    </button>
+
+    <!-- Modal para cadastrar carro -->
+    <div class="modal fade" id="createCarModal" tabindex="-1" aria-labelledby="createCarModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createCarModalLabel">Cadastrar Novo Carro</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form @submit.prevent="createCar">
+                        <!-- Modelo do carro -->
+                        <div class="mb-3">
+                            <label for="carModel" class="form-label">Modelo do Carro</label>
+                            <select v-model="newCarModel" id="carModel" class="form-select" required>
+                                <option value="">Selecione um modelo</option>
+                                <option value="Hatch">Hatch</option>
+                                <option value="Sedan">Sedan</option>
+                                <option value="Convertible">Conversível</option>
+                            </select>
+                        </div>
+
+                        <!-- Cor do carro -->
+                        <div class="mb-3">
+                            <label for="carColor" class="form-label">Cor do Carro</label>
+                            <select v-model="newCarColor" id="carColor" class="form-select" required>
+                                <option value="">Selecione uma cor</option>
+                                <option value="Yellow">Amarelo</option>
+                                <option value="Blue">Azul</option>
+                                <option value="Gray">Cinza</option>
+                            </select>
+                        </div>
+
+                        <!-- Proprietário do carro -->
+                        <div class="mb-3">
+                            <label for="ownerId" class="form-label">Proprietário</label>
+                            <select v-model="newOwnerId" id="ownerId" class="form-select" required>
+                                <option v-for="owner in owners" :key="owner.id" :value="owner.id">
+                                    (( owner.name ))
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Botão para submeter o formulário -->
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div v-if="cars.length > 0">
+        <div class="row">
+            <div class="col-12" v-for="car in cars" :key="car.id">
+                <div class="card mb-4 w-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Modelo: (( car.model ))</h5>
+                        <p class="card-text"><strong>Cor:</strong> (( car.color ))</p>
+                        <p class="card-text"><strong>Proprietário:</strong> (( car.owner_name ))</p>
+                        <p class="card-text"><strong>Contato:</strong> (( car.owner_contact ))</p>
+                        <button class="btn btn-danger" @click="deleteCar(car.id)">Deletar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-else>
+        <p>Não há carros disponíveis ou todos os carros estão sem proprietário.</p>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: '#cars',
+        data: {
+            cars: [],
+            owners: [],
+            newCarModel: '',
+            newCarColor: '',
+            newOwnerId: null,
+            errorMessage: '', 
+            successMessage: '' 
+        },
+        mounted() {
+            this.getCars();
+            this.getOwners();
+        },
+        delimiters: ['(( ', ' ))'],
+        methods: {
+            getCars() {
+                fetch('/cars/list')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        this.cars = data.filter(car => car.owner_name);
+                        console.log(this.cars);
+                    })
+                    .catch(error => {
+                        this.errorMessage = 'Erro ao buscar dados: ' + error.message;
+                    });
+            },
+            getOwners() {
+                fetch('/owners/list')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        this.owners = data;
+                    })
+                    .catch(error => {
+                        this.errorMessage = 'Erro ao buscar dados de proprietários: ' + error.message;
+                    });
+            },
+            createCar() {
+                const newCar = {
+                    model: this.newCarModel,
+                    color: this.newCarColor,
+                    owner_id: this.newOwnerId,
+                };
+
+                fetch('/cars/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(newCar)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao criar carro');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    this.newCarModel = '';
+                    this.newCarColor = '';
+                    this.newOwnerId = null;
+                    this.cars.push(data);
+                    this.successMessage = 'Carro cadastrado com sucesso!';
+                    this.getOwners();
+                    this.getCars();
+                    $('#createCarModal').modal('hide');
+                })
+                .catch(error => {
+                    this.errorMessage = 'Erro ao criar carro: ' + error.message;
+                });
+            },
+            deleteCar(carId) {
+                fetch(`/cars/delete/${carId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Erro ao deletar carro');
+                    }
+                    this.cars = this.cars.filter(car => car.id !== carId);
+                    this.successMessage = 'Carro deletado com sucesso!';
+                })
+                .catch(error => {
+                    this.errorMessage = 'Erro ao deletar carro: ' + error.message;
+                });
+            }
+        }
+    });
+</script>
+{% endblock %}
