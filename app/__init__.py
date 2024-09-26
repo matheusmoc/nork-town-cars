@@ -1,14 +1,16 @@
 from flask import Flask
-from .config import Config
 from .models import db 
 from .routes import api
 from .auth import auth as auth_blueprint
 from flask_login import LoginManager
 from .models.user import User
 import os
+from flasgger import Swagger
 
 def create_app(config_name=None):
     app = Flask(__name__)
+
+    swagger = Swagger(app)
 
     env = os.getenv('FLASK_ENV', 'development')
 
