@@ -141,7 +141,7 @@ Após iniciar o servidor, a documentação da API pode ser acessada na seguinte 
 
 ## Testes Unitários
 
-Este projeto inclui testes unitários para garantir que a aplicação funcione corretamente. Os testes estão localizados no arquivo [testes.py](caminho/para/o/arquivo/testes.py). Você pode executar os testes utilizando o seguinte comando:
+Este projeto inclui testes unitários para garantir que a aplicação funcione corretamente. Os testes estão localizados no arquivo https://github.com/matheusmoc/nork-town-cars/tree/master/app/tests. Você pode executar os testes utilizando o seguinte comando:
 
 ```bash
 python -m unittest app/tests/test_cars.py
