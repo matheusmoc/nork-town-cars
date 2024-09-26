@@ -134,6 +134,15 @@ Após iniciar o servidor, a documentação da API pode ser acessada na seguinte 
 
 ![image](https://github.com/user-attachments/assets/873a2926-00ac-42c5-8968-8236c841b219)
 
+## Testes Unitários
+
+Este projeto inclui testes unitários para garantir que a aplicação funcione corretamente. Os testes estão localizados no arquivo [testes.py](caminho/para/o/arquivo/testes.py). Você pode executar os testes utilizando o seguinte comando:
+
+```bash
+python -m unittest app/tests/test_cars.py
+python -m unittest app/tests/test_owners.py 
+````
+
 ### ⚠️ Notas
 
 - Certifique-se de que o servidor Flask está em execução antes de acessar a URL.
