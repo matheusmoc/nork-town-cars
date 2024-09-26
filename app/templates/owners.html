@@ -92,8 +92,8 @@
             owners: [],  
             newOwnerName: '',  
             newOwnerContact: '',  
-            errorMessage: '', // Add error message data
-            successMessage: '' // Add success message data
+            errorMessage: '', 
+            successMessage: '' 
         },
         mounted() {
             this.getOwners();
@@ -137,7 +137,7 @@
                     this.owners.push(data);  
                     this.getOwners();
                     $('#createOwnerModal').modal('hide');
-                    this.successMessage = 'Proprietário cadastrado com sucesso!'; // Set success message
+                    this.successMessage = 'Proprietário cadastrado com sucesso!'; 
                 } catch (error) {
                     this.errorMessage = error.message;
                 }
