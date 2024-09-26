@@ -98,7 +98,7 @@ Este projeto utiliza as seguintes tecnologias:
 - [Flask-Login](https://flask-login.readthedocs.io/) - Uma extensão para gerenciar sessões de usuários em aplicações Flask.
 - [Flask-Testing](https://flask-testing.readthedocs.io/) - Uma extensão que fornece ferramentas para facilitar os testes de aplicações Flask.
 - [SQLAlchemy](https://www.sqlalchemy.org/) - Uma biblioteca SQL e ORM para Python que permite interagir com bancos de dados de forma simples e eficiente.
-- [Flasgger](https://flasgger.readthedocs.io/) - Uma extensão que simplifica a criação de APIs RESTful e a documentação com Swagger.
+- [Flasgger](https://github.com/flasgger/flasgger) - Uma extensão que simplifica a criação de APIs RESTful e a documentação com Swagger.
 - [Vue.js 2.6](https://vuejs.org/v2/guide/) - Um framework progressivo para construir interfaces de usuário, que permite a criação de aplicações web reativas e dinâmicas.
 
 # 🖼️ Overview de Imagens
