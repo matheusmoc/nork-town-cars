@@ -136,7 +136,8 @@ A documentação da API está disponível através do Flasgger e pode ser acessa
 
 Após iniciar o servidor, a documentação da API pode ser acessada na seguinte URL: http://127.0.0.1:5000/apidocs/
 
-![image](https://github.com/user-attachments/assets/873a2926-00ac-42c5-8968-8236c841b219)
+![image](https://github.com/user-attachments/assets/077603c2-1e77-4634-b89e-d32f135cc27f)
+
 
 Para visualizar as rotas completas do projeto, basta rodar:
 
