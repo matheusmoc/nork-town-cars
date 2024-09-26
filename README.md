@@ -84,8 +84,12 @@ Utilize o Docker Compose para construir e iniciar os contêineres do projeto.
    ```bash
    docker-compose up -d
    ```
-
-# ⚙️ Tecnologias Usadas
+### 4. Rodando o projeto
+   Para rodar um projeto Flask basta usar o comando:
+   
+   ```bash
+   flask run
+   ```
 
 Este projeto utiliza as seguintes tecnologias:
 
@@ -130,9 +134,18 @@ A documentação da API está disponível através do Flasgger e pode ser acessa
 
 ### 🌐 Acessando a Documentação
 
-Após iniciar o servidor, a documentação da API pode ser acessada na seguinte URL: [http://127.0.0.1:5000/apidocs/](http://127.0.0.1:5000/apidocs/)
+Após iniciar o servidor, a documentação da API pode ser acessada na seguinte URL: http://127.0.0.1:5000/apidocs/
 
 ![image](https://github.com/user-attachments/assets/873a2926-00ac-42c5-8968-8236c841b219)
+
+Para visualizar as rotas completas do projeto, basta rodar:
+
+```bash
+flask route
+```
+
+![image](https://github.com/user-attachments/assets/e31d2834-ac9f-4b63-88e0-d551dbecb34e)
+
 
 ### ⚠️ Notas
 
